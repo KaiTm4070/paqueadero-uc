@@ -13,7 +13,7 @@ suma_horas = 0.0
 
 #  Ciclo principal 
 procesados = 0
-while procesados < n:
+while procesados < n and registrados < CUPOS:
     procesados += 1
     print("\n--- Vehiculo", procesados, "de", n, "---")
 
@@ -68,3 +68,22 @@ while procesados < n:
     registrados += 1
     total_recaudado += cobro
     suma_horas += horas
+
+#  Cupos 
+if registrados == CUPOS:
+    print("\nPARQUEADERO LLENO")
+
+#  Estadisticas finales 
+if registrados > 0:
+    promedio = round(suma_horas / registrados, 1)
+else:
+    promedio = 0.0
+ocupacion = round(registrados / CUPOS * 100, 1)
+
+print("\n====== RESUMEN DEL DIA ======")
+print("Vehiculos registrados: " + str(registrados) + "/" + str(CUPOS))
+print("Ocupacion: " + str(ocupacion) + "%")
+print("Recaudo total: $" + str(round(total_recaudado, 2)))
+print("Estudiantes: " + str(cant_estudiantes) + " | Docentes: " + str(cant_docentes) + " | Visitantes: " + str(cant_visitantes))
+print("Promedio de permanencia: " + str(promedio) + " horas")
+print("=============================")
