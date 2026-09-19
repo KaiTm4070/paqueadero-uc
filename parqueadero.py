@@ -3,11 +3,11 @@ CUPOS = 30
 #  Datos iniciales 
 n = int(input("Cantidad de vehiculos a simular (N): "))
 
-# Acumuladores
+#  Acumuladores 
 registrados = 0
-total_recaudado = 0.0   
+total_recaudado = 0.0
 cant_estudiantes = 0
-cant_docentes = 0   
+cant_docentes = 0
 cant_visitantes = 0
 suma_horas = 0.0
 
@@ -17,7 +17,7 @@ while procesados < n:
     procesados += 1
     print("\n--- Vehiculo", procesados, "de", n, "---")
 
-    # Entrada de datos 
+    # Entrada de datos (con conversion explicita de tipos)
     placa = input("Placa: ")
     tipo = input("Tipo de usuario (E/D/V): ").strip().upper()
     hora = int(input("Hora de entrada (0-23): "))
@@ -55,6 +55,11 @@ while procesados < n:
         else:
             cobro = 1500 + (horas - 1) * 1200
         cant_visitantes += 1
+
+    # Descuento nocturno
+    if hora > 19 or hora < 6:
+        cobro = cobro * 0.90
+        print("Descuento nocturno aplicado (10%).")
 
     cobro = round(cobro, 2)
     print("Placa", placa, "| Cobro: $" + str(cobro))
