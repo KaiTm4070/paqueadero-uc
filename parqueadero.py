@@ -1,10 +1,10 @@
 CUPOS = 30
 
-# ---------- Datos iniciales ----------
+# Datos iniciales
 n = int(input("Cantidad de vehiculos a simular (N): "))
 es_sabado = input("Es sabado? (True/False): ").strip().lower() == "true"
 
-# ---------- Acumuladores ----------
+# Acumuladores
 registrados = 0
 total_recaudado = 0.0
 cant_estudiantes = 0
@@ -12,7 +12,7 @@ cant_docentes = 0
 cant_visitantes = 0
 suma_horas = 0.0
 
-# ---------- Ciclo principal (corte por N o por cupos) ----------
+# Ciclo principal (corte por N o por cupos)
 procesados = 0
 while procesados < n and registrados < CUPOS:
     procesados += 1
@@ -23,16 +23,13 @@ while procesados < n and registrados < CUPOS:
     tipo = input("Tipo de usuario (E/D/V): ").strip().upper()
     hora = int(input("Hora de entrada (0-23): "))
     horas = float(input("Horas de permanencia: "))
+    while horas <= 0:
+        print("ERROR: las horas de permanencia deben ser mayores que 0.")
+        horas = float(input("Horas de permanencia: "))
 
     # 2. Validaciones
-    hora_invalida = hora < 0 or hora > 23
-    permanencia_invalida = horas <= 0
-
-    if hora_invalida or permanencia_invalida:
-        if hora_invalida:
-            print("ERROR: la hora de entrada debe estar entre 0 y 23.")
-        if permanencia_invalida:
-            print("ERROR: las horas de permanencia deben ser mayores que 0.")
+    if hora < 0 or hora > 23:
+        print("ERROR: la hora de entrada debe estar entre 0 y 23.")
         print("Registro rechazado, no se cuenta el vehiculo.")
         continue
 
@@ -72,11 +69,11 @@ while procesados < n and registrados < CUPOS:
     total_recaudado += cobro
     suma_horas += horas
 
-# ---------- Cupos ----------
+# Cupos
 if registrados == CUPOS:
     print("\nPARQUEADERO LLENO")
 
-# ---------- Estadisticas finales ----------
+# Estadisticas finales
 if registrados > 0:
     promedio = round(suma_horas / registrados, 1)
 else:
