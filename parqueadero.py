@@ -1,9 +1,10 @@
 CUPOS = 30
 
-#  Datos iniciales 
+# ---------- Datos iniciales ----------
 n = int(input("Cantidad de vehiculos a simular (N): "))
+es_sabado = input("Es sabado? (True/False): ").strip().lower() == "true"
 
-#  Acumuladores 
+# ---------- Acumuladores ----------
 registrados = 0
 total_recaudado = 0.0
 cant_estudiantes = 0
@@ -11,19 +12,19 @@ cant_docentes = 0
 cant_visitantes = 0
 suma_horas = 0.0
 
-#  Ciclo principal 
+# ---------- Ciclo principal (corte por N o por cupos) ----------
 procesados = 0
 while procesados < n and registrados < CUPOS:
     procesados += 1
     print("\n--- Vehiculo", procesados, "de", n, "---")
 
-    # Entrada de datos (con conversion explicita de tipos)
+    # 1. Entrada de datos (con conversion explicita de tipos)
     placa = input("Placa: ")
     tipo = input("Tipo de usuario (E/D/V): ").strip().upper()
     hora = int(input("Hora de entrada (0-23): "))
     horas = float(input("Horas de permanencia: "))
 
-    # Validaciones
+    # 2. Validaciones
     hora_invalida = hora < 0 or hora > 23
     permanencia_invalida = horas <= 0
 
@@ -39,7 +40,7 @@ while procesados < n and registrados < CUPOS:
         print("ADVERTENCIA: tipo de usuario desconocido, se trata como visitante.")
         tipo = "V"
 
-    # Calculo de tarifa
+    # 3. Calculo de tarifa
     if tipo == "E":
         if horas <= 2:
             cobro = 0
@@ -54,10 +55,12 @@ while procesados < n and registrados < CUPOS:
             cobro = 1500
         else:
             cobro = 1500 + (horas - 1) * 1200
+        if es_sabado:
+            cobro = cobro * 0.80  # bonus: -20% visitantes en sabado
         cant_visitantes += 1
 
-    # Descuento nocturno
-    if hora > 19 or hora < 6:
+    # Descuento nocturno (no aplica en sabado)
+    if not es_sabado and (hora > 19 or hora < 6):
         cobro = cobro * 0.90
         print("Descuento nocturno aplicado (10%).")
 
@@ -69,11 +72,11 @@ while procesados < n and registrados < CUPOS:
     total_recaudado += cobro
     suma_horas += horas
 
-#  Cupos 
+# ---------- Cupos ----------
 if registrados == CUPOS:
     print("\nPARQUEADERO LLENO")
 
-#  Estadisticas finales 
+# ---------- Estadisticas finales ----------
 if registrados > 0:
     promedio = round(suma_horas / registrados, 1)
 else:
